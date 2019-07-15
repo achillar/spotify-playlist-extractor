@@ -9,7 +9,7 @@ Be fair.
 
 ## How to use
 * Download the Chrome Extension from the [Google Chrome Extension gallery](https://chrome.google.com/webstore/detail/spotify-playlist-extracto/onglffcjldphmpfnpdfmngfenhmjlnnn)
-* Visit [https://play.spotify.com/](play.spotify.com) and go to Playlist
+* Visit [https://open.spotify.com/](open.spotify.com) and go to Playlist
 * Pick up a playlist (click on it)
 * Click on the "Spotify Playlist Extractor" button next to the Menu button
 * Wait for it to work (if you have many items, it will scroll automatically your playlist every 5 seconds)

@@ -1,44 +1,44 @@
 {
-    "manifest_version" : 2,
-    "author": "Julian Xhokaxhiu < http://julianxhokaxhiu.com >",
-    "name" : "Spotify Playlist Extractor",
-    "version" : "0.2",
-    "description" : "Extract your playlists safely with a 1-click solution!",
+    "manifest_version": 2,
+    "author": "Antonio Chillarón Barahona <antonio@barcemex.es>, Julian Xhokaxhiu < http://julianxhokaxhiu.com >",
+    "name": "Spotify Playlist Extractor",
+    "version": "0.2",
+    "description": "Extract your playlists safely with a 1-click solution!",
+
     "permissions": [
         "tabs",
-        "https://play.spotify.com/*"
+        "https://open.spotify.com/*"
     ],
-    "background" : {
-        "scripts" : [
+    "background": {
+        "scripts": [
             "js/jquery-2.1.0.min.js",
             "js/app.js",
             "js/background.js"
-        ]
+        ],
+        "persistent": false
     },
-    "browser_action" : {
+    "browser_action": {
         "default_icon": "img/icon_48.png",
-        "default_title": "Get Playlist"
+        "default_title": "Download Playlist"
     },
-    "icons" : {
-        "16" : "img/icon_16.png",
-        "48" : "img/icon_48.png",
-        "128" : "img/icon_128.png"
+    "icons": {
+        "16": "img/icon_16.png",
+        "48": "img/icon_48.png",
+        "128": "img/icon_128.png"
     },
-    "content_scripts" : [
-        {
-            "matches" : [
-                "https://play.spotify.com/*"
-            ],
-            "permissions" : [
-                "tabs",
-                "https://play.spotify.com/*"
-            ],
-            "js" : [
-                "js/jquery-2.1.0.min.js",
-                "js/app.js",
-                "js/spdl.js"
-            ],
-            "run_at": "document_idle"
-        }
-    ]
+    "content_scripts": [{
+        "matches": [
+            "https://open.spotify.com/*"
+        ],
+        "permissions": [
+            "tabs",
+            "https://open.spotify.com/*"
+        ],
+        "js": [
+            "js/jquery-2.1.0.min.js",
+            "js/app.js",
+            "js/spdl.js"
+        ],
+        "run_at": "document_idle"
+    }]
 }
