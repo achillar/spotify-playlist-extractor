@@ -22,33 +22,80 @@
 
 */
 jQuery(function ($) {
-    var userPlaylist = {};
+    var userPlaylist = [];
+
+    function getPlaylistCoverImage(playlistView$) {
+        const playlistCoverImage = playlistView$.find('div.cover-art-image').css('background-image');
+        if (!playlistCoverImage) {
+            console.error('Could not find the playlist cover image.');
+            alert('No playlistCoverImage');
+        }
+
+        return playlistCoverImage;
+    }
+
+    function getPlaylistTitle(playlistView$) {
+        const playlistTitle = playlistView$.find('div.mo-info-name').attr('title');
+        if (!playlistTitle) {
+            console.error('Could not find the play list title image.');
+        }
+
+        return playlistTitle;
+    }
+
+    function getPlaylistTitle(playlistView$) {
+        const playlistTitle = playlistView$.find('div.mo-info-name').attr('title');
+        if (!playlistTitle) {
+            console.error('Could not find the play list title image.');
+        }
+
+        return playlistTitle;
+    }
+
     var getItems = function () {
-        var scrollTime = 5;
-        var playlistView = $('#section-collection iframe').contents().find('#pf-playlist-view');
+        const scrollTime = 5;
+        const playlistView$ = $('div.PlaylistContainer'); // .contents().find('#pf-playlist-view');
+        if (!playlistView$) {
+            console.error('Could not find the playlistView element.');
+            alert('No Playlist');
+        }
+        const coverImage = getPlaylistCoverImage(playlistView$);
+        const playlistTitle = getPlaylistTitle(playlistView$);
+
         // Get Items
-        var playlistItems = playlistView.find('.tl-row').each(function (i, item) {
-            item = $(item);
-            userPlaylist[item.data('uri')] = {
-                'title': item.find('.tl-name .tl-highlight').text(),
-                'artistURI': item.find('.tl-artists a').data('uri'),
-                'artist': item.find('.tl-artists a').text(),
-                'albumURI': item.find('.tl-albums a').data('uri'),
-                'album': item.find('.tl-albums a').text()
-            }
-        });
+
+        const trackList$ = playlistView$.find('ol.tracklist');
+        const playlistItems = trackList$
+            .find('.tracklist-row')
+            .each(function (i, item) {
+                item = $(item);
+                userPlaylist.push({
+                    'title': item.find('.tracklist-name').text(),
+                    'artistURI': item.find('.tracklist-row__artist-name-link').data('uri'),
+                    'artist': item.find('.tracklist-row__artist-name-link').text(),
+                    'albumURI': item.find('.tracklist-row__album-name-link').data('uri'),
+                    'album': item.find('.tracklist-row__album-name-link').text()
+                });
+            });
         GLOBAL.info('Got ' + playlistItems.length + ' items. Continue to scrap in ' + scrollTime + ' seconds...');
 
-        // Calculate TOP offset
-        var header = playlistView.find('header.header');
-        var rowListHeaders = playlistView.find('thead.tl-header');
-        var lastItem = playlistItems.filter(function (i) {
-            $this = $(this);
-            return ($this.find('.tl-name .tl-highlight').length == 0);
-        }).first().prev();
+        const lastItem = playlistItems
+            .filter(function (i) {
+                $this = $(this);
+                return ($this.find('.tl-name .tl-highlight').length == 0);
+            }).first().prev();
+
         if (lastItem.length) {
-            playlistView.scrollTop(header.outerHeight() + rowListHeaders.outerHeight() + (lastItem.outerHeight() * parseInt(lastItem.data('index'))));
-            setTimeout(getItems, scrollTime * 1000);
+            $('html, body').animate({
+                scrollTop: $(document).height()
+            }, 'fast');
+
+            // // Calculate TOP offset
+            // const header = playlistView$.find('header.header');
+            // const rowListHeaders = playlistView$.find('thead.tl-header');
+            // playlistView$.scrollTop(header.outerHeight() + rowListHeaders.outerHeight() + (lastItem.outerHeight() * parseInt(lastItem.data('index'))));
+
+            // setTimeout(getItems, scrollTime * 1000);
         } else {
             GLOBAL.info('Done! Got ' + Object.keys(userPlaylist).length + ' items.', userPlaylist);
             chrome.extension.sendMessage({
@@ -58,7 +105,7 @@ jQuery(function ($) {
     }
     chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
         GLOBAL.debug('foreground onMessage CALLED!');
-        userPlaylist = {};
+        userPlaylist = [];
         if (request == 'getItems') getItems();
     });
 })

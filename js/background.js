@@ -32,5 +32,5 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 });
 chrome.browserAction.onClicked.addListener(function (tab) {
     GLOBAL.debug('onClicked CALLED!');
-    if (tab.url.match("^https?://play.spotify.com")) chrome.tabs.sendMessage(tab.id, 'getItems');
+    if (tab.url.match("^https?://open.spotify.com")) chrome.tabs.sendMessage(tab.id, 'getItems');
 });
