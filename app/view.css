@@ -1,4 +1,6 @@
-html, body, pre {
+html,
+body,
+pre {
     font-family: Tahoma;
     position: relative;
     top: 0;
@@ -9,11 +11,12 @@ html, body, pre {
     height: 100%;
     word-wrap: break-word;
 }
-a{
+
+a {
     position: fixed;
     bottom: 15px;
     z-index: 100;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: #FFF;
     font-weight: bold;
     font-size: 16px;
@@ -21,12 +24,15 @@ a{
     border-radius: 5px;
     cursor: pointer;
 }
-a:hover{
-    background: rgba(0,0,0,0.8);
+
+a:hover {
+    background: rgba(0, 0, 0, 0.8);
 }
-#downloadM3U{
+
+#downloadM3U {
     right: 15px;
 }
-#downloadJSON{
+
+#downloadJSON {
     right: 180px;
 }

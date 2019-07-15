@@ -28,44 +28,44 @@ var GLOBAL = {
         'playlist_song_format': 'SPDL.playlist_song_format',
         'playlist_items': 'SPDL.playlist_items'
     },
-    'options':{
+    'options': {
         'show_debug': false,
         'show_info': true,
         'playlist_song_format': '#EXTINF:0, {song.artist} - {song.title}',
         'view_playlist': 'app/view.html',
     },
     'playlist_items': {},
-    'debug' : function(msg){
-        if ( GLOBAL.options.show_debug ) console.log('[ Spotify Playlist Extractor ] >> ' + msg);
+    'debug': function (msg) {
+        if (GLOBAL.options.show_debug) console.log('[ Spotify Playlist Extractor ] >> ' + msg);
     },
-    'info': function(msg){
-        if ( GLOBAL.options.show_info ) console.log('[ Spotify Playlist Extractor ] >> ' + msg);
+    'info': function (msg) {
+        if (GLOBAL.options.show_info) console.log('[ Spotify Playlist Extractor ] >> ' + msg);
     },
-    'getFormattedLine': function(song){
+    'getFormattedLine': function (song) {
         var ret = GLOBAL.options.playlist_song_format;
 
         // Do the replacements
-        for (var attr in song){
-            ret = ret.replace('{song.'+ attr +'}', song[attr]);
+        for (var attr in song) {
+            ret = ret.replace('{song.' + attr + '}', song[attr]);
         }
 
         return ret;
     },
-    'getPlaylist': function(){
+    'getPlaylist': function () {
         var ret = '#EXTM3U\n';
 
         // Concatenate items
-        for (var songURI in GLOBAL.playlist_items){
+        for (var songURI in GLOBAL.playlist_items) {
             var song = GLOBAL.playlist_items[songURI];
             ret += GLOBAL.getFormattedLine(song) + '\n';
         }
 
         return ret;
     },
-    'getPlaylistJsonString': function(){
+    'getPlaylistJsonString': function () {
         var ret = [];
 
-        for (var songURI in GLOBAL.playlist_items){
+        for (var songURI in GLOBAL.playlist_items) {
             var song = GLOBAL.playlist_items[songURI];
             ret.push({
                 'title': song.title,
@@ -74,16 +74,16 @@ var GLOBAL = {
             });
         }
 
-        return JSON.stringify( ret );
+        return JSON.stringify(ret);
     },
-    'saveItems': function(items){
-        window.localStorage.setItem( GLOBAL.keys.playlist_items, JSON.stringify(items) );
+    'saveItems': function (items) {
+        window.localStorage.setItem(GLOBAL.keys.playlist_items, JSON.stringify(items));
     },
-    'init': function(){
-        if ( window.localStorage.getItem(GLOBAL.keys.show_debug) ) GLOBAL.options.show_debug = window.localStorage.getItem(GLOBAL.keys.show_debug);
-        if ( window.localStorage.getItem(GLOBAL.keys.show_info) ) GLOBAL.options.show_info = window.localStorage.getItem(GLOBAL.keys.show_info);
-        if ( window.localStorage.getItem(GLOBAL.keys.playlist_song_format) ) GLOBAL.options.playlist_song_format = window.localStorage.getItem(GLOBAL.keys.playlist_song_format);
-        if ( window.localStorage.getItem(GLOBAL.keys.playlist_items) ) GLOBAL.playlist_items = JSON.parse( window.localStorage.getItem(GLOBAL.keys.playlist_items) );
+    'init': function () {
+        if (window.localStorage.getItem(GLOBAL.keys.show_debug)) GLOBAL.options.show_debug = window.localStorage.getItem(GLOBAL.keys.show_debug);
+        if (window.localStorage.getItem(GLOBAL.keys.show_info)) GLOBAL.options.show_info = window.localStorage.getItem(GLOBAL.keys.show_info);
+        if (window.localStorage.getItem(GLOBAL.keys.playlist_song_format)) GLOBAL.options.playlist_song_format = window.localStorage.getItem(GLOBAL.keys.playlist_song_format);
+        if (window.localStorage.getItem(GLOBAL.keys.playlist_items)) GLOBAL.playlist_items = JSON.parse(window.localStorage.getItem(GLOBAL.keys.playlist_items));
     }
 };
 GLOBAL.init();

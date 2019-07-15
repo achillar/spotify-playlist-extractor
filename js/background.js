@@ -21,16 +21,16 @@
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
-chrome.extension.onMessage.addListener(function(request,sender,sendResponse) {
+chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
     GLOBAL.debug('background onMessage CALLED!');
-    if(request.items){
+    if (request.items) {
         GLOBAL.saveItems(request.items);
         chrome.tabs.create({
             url: GLOBAL.options.view_playlist
         });
     }
 });
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.browserAction.onClicked.addListener(function (tab) {
     GLOBAL.debug('onClicked CALLED!');
     if (tab.url.match("^https?://play.spotify.com")) chrome.tabs.sendMessage(tab.id, 'getItems');
 });
