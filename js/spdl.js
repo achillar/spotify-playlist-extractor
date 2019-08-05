@@ -53,6 +53,22 @@ jQuery(function ($) {
     }
 
     var getItems = function () {
+
+        let tracks = [];
+        const metas = document.querySelectorAll('head meta[property="music:song"], head meta[property="music:song:track"]');
+        if (metas.length % 2 !== 0) {
+            console.error("Number of matching meta elements is odd: " + metas.length);
+            // return;
+        }
+        metas.forEach((elem, ix, list) => {
+            const contentVal = elem.getAttribute('content');
+            if (ix % 2 === 0) {
+                currentTrackUrl = contentVal;
+            } else {
+                tracks[contentVal - 1] = currentTrackUrl;
+            }
+        });
+
         const scrollTime = 5;
         const playlistView$ = $('div.PlaylistContainer'); // .contents().find('#pf-playlist-view');
         if (!playlistView$) {
@@ -63,18 +79,18 @@ jQuery(function ($) {
         const playlistTitle = getPlaylistTitle(playlistView$);
 
         // Get Items
-
         const trackList$ = playlistView$.find('ol.tracklist');
         const playlistItems = trackList$
             .find('.tracklist-row')
-            .each(function (i, item) {
+            .each((i, item) => {
                 item = $(item);
                 userPlaylist.push({
+                    'trackURI': tracks[i],
                     'title': item.find('.tracklist-name').text(),
                     'artistURI': item.find('.tracklist-row__artist-name-link').data('uri'),
                     'artist': item.find('.tracklist-row__artist-name-link').text(),
                     'albumURI': item.find('.tracklist-row__album-name-link').data('uri'),
-                    'album': item.find('.tracklist-row__album-name-link').text()
+                    'album': item.find('.tracklist-row__album-name-link').text(),
                 });
             });
         GLOBAL.info('Got ' + playlistItems.length + ' items. Continue to scrap in ' + scrollTime + ' seconds...');
